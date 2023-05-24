@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .fill {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            margin-top: 100px;
+            width: 600px;
+            height: 600px;
+            background-color: blueviolet;
+            border-radius: 9px;
+            box-shadow: 3px 3px 3px 1px rgb(2, 2, 2);
+            text-align: center;
+            font-family: 'Playfair', serif;
+            font-size: 30px;
+        }
+
+        form label {
+            color: rgb(18, 16, 16);
+            border-color: aquamarine;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            width: 400px;
+            padding: 10px;
+        }
+
+        #submit {
+            background-color: blue;
+            color: white;
+            font-family: 'Playfair', serif;
+            font-size: large;
+            border-radius: 10px;
+            width: 120px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        #submit:hover {
+            transform: scale(1.1);
+        }
+
+        .forgot {
+            text-decoration: none;
+            font-size: 15px;
+            margin-left: 10px !important;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 50%;
+            left: calc(50% - 25px);
+            width: 120px;
+            height: 120px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: top 0.3s ease;
+            z-index: -1;
+        }
+
+        .translate-up {
+            top: 2%;
+            background-image: url('seek.png');
+        }
+
+        .translate-down {
+            top: 76%;
+            background-image: url('seek2.png');
+        }
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            display: none;
+        }
+
+        form.username-match {
+            background-color: rgb(150, 95, 95);
+            color: white;
+        }
+
+        form.username-match + #background-video {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="background-video" autoplay loop muted>
+        <source src="fire_background_loop2_videvo2_preview.mp4" type="video/mp4">
+    </video>
+    <div class="fill">
+        <div class="background-image"></div>
+        <form action="" method="post" id="login-form">
+            <h1 style="text-align: center;">Sign-in</h1>
+            <label for="username">Username</label><br>
+            <input type="text" name="username" id="username" placeholder="Enter your username" oninput="translateImage('username')"><br><br>
+
+            <label for="password">Password</label><br>
+            <input type="password" id="password" name="password" placeholder="Password" oninput="translateImage('password')"><br><br>
+
+            <div style="display:flex; align-items:center;">
+                <h7 class="forgot">
+                    <a href="forgotpassword.html">Forgot password? &nbsp;&nbsp;</a>
+                </h7> <br> <br>
+
+                <input type="submit" value="Submit" id="submit">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let timeoutIds = {};
+
+        function translateImage(inputType) {
+            const input = document.getElementById(inputType);
+            const backgroundImage = document.querySelector('.background-image');
+
+            clearTimeout(timeoutIds[inputType]);
+
+            if (input.value !== '') {
+                if (inputType === 'username') {
+                    backgroundImage.classList.add('translate-up');
+                    backgroundImage.classList.remove('translate-down');
+                } else if (inputType === 'password') {
+                    backgroundImage.classList.add('translate-down');
+                    backgroundImage.classList.remove('translate-up');
+                }
+
+                timeoutIds[inputType] = setTimeout(() => {
+                    backgroundImage.classList.remove('translate-up');
+                    backgroundImage.classList.remove('translate-down');
+                }, 2000);
+            } else {
+                backgroundImage.classList.remove('translate-up');
+                backgroundImage.classList.remove('translate-down');
+            }
+        }
+    </script>
+  
+  <script>
+    const form = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const backgroundVideo = document.getElementById('background-video');
+
+    usernameInput.addEventListener('input', function () {
+        const username = this.value.trim().toLowerCase();
+        if (username === 'sushanth') {
+            form.classList.add('username-match');
+            backgroundVideo.style.display = 'block';
+        } else {
+            form.classList.remove('username-match');
+            backgroundVideo.style.display = 'none';
+        }
+    });
+</script>
+    
+</body>
+
+</html>
